@@ -5,7 +5,7 @@
 # Doc: https://docs.docker.com/engine/reference/builder/
 
 # TODO(make): Use ALPINE_VERSION, should be soon: https://github.com/docker/docker/issues/18119
-FROM alpine:3.4
+FROM alpine:3.5
 MAINTAINER Marc-Antoine Ruel <d@maruel.net>
 
 ARG HUGO_VERSION
@@ -22,9 +22,7 @@ RUN apk update && apk add py-pygments && rm -rf /var/cache/apk/*
 
 # hugo
 ADD ["https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz", "/usr/local/hugo.tar.gz"]
-RUN tar xzf /usr/local/hugo.tar.gz -C /usr/local/ && \
-    mv /usr/local/hugo*/hugo* /usr/local/bin/hugo && \
-    rm -rf /usr/local/hugo*
+RUN tar xz -f /usr/local/hugo.tar.gz -C /usr/local/bin/ hugo
 
 VOLUME /data
 WORKDIR /data

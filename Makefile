@@ -3,8 +3,8 @@
 # that can be found in the LICENSE file.
 
 # Override these at the command like, like "make push HUGO_VERSION=0.20 REPO=user/repo".
-ALPINE_VERSION?=3.4
-HUGO_VERSION?=0.19
+ALPINE_VERSION?=3.5
+HUGO_VERSION?=0.20.7
 PYGMENTS_VERSION?=2.2.0
 REPO?=marcaruel/hugo-tidy
 

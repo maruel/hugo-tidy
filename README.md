@@ -29,7 +29,7 @@ tags.
 - Generated website is in `./www`
 
 ```
-docker run --rm -u $(id -u):$(id -g) -v $(pwd):/data marcaruel/hugo-tidy:hugo-0.19-alpine-3.4-pygments-2.2.0
+docker run --rm -u $(id -u):$(id -g) -v $(pwd):/data marcaruel/hugo-tidy:hugo-0.20.7-alpine-3.5-pygments-2.2.0
 ```
 
 
