@@ -4,8 +4,10 @@
 #
 # Doc: https://docs.docker.com/engine/reference/builder/
 
-# TODO(make): Use ALPINE_VERSION, should be soon: https://github.com/docker/docker/issues/18119
-FROM alpine:3.5
+ARG ALPINE_VERSION
+
+FROM alpine:${ALPINE_VERSION}
+
 MAINTAINER Marc-Antoine Ruel <d@maruel.net>
 
 ARG HUGO_VERSION

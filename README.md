@@ -29,7 +29,7 @@ tags.
 - Generated website is in `./www`
 
 ```
-docker run --rm -u $(id -u):$(id -g) -v $(pwd):/data marcaruel/hugo-tidy:hugo-0.20.7-alpine-3.5-pygments-2.2.0
+docker run --rm -u $(id -u):$(id -g) -v $(pwd):/data marcaruel/hugo-tidy:hugo-0.25.1-alpine-3.6-pygments-2.2.0
 ```
 
 
@@ -42,7 +42,7 @@ Override `REPO` to have it push to your repository.
 
 To push an image on your name with a new version of Hugo, run the following:
 ```
-make push HUGO_VERSION=0.20 REPO=user/repo
+make push HUGO_VERSION=0.25.1 REPO=user/repo
 ```
 
 

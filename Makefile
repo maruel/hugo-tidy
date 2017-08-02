@@ -3,8 +3,11 @@
 # that can be found in the LICENSE file.
 
 # Override these at the command like, like "make push HUGO_VERSION=0.20 REPO=user/repo".
-ALPINE_VERSION?=3.5
-HUGO_VERSION?=0.20.7
+# https://hub.docker.com/_/alpine/
+ALPINE_VERSION?=3.6
+# https://github.com/gohugoio/hugo/releases
+HUGO_VERSION?=0.25.1
+# https://pypi.python.org/pypi/Pygments
 PYGMENTS_VERSION?=2.2.0
 REPO?=marcaruel/hugo-tidy
 
