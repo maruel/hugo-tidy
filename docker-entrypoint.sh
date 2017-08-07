@@ -14,15 +14,26 @@ if [ ! -d site ]; then
 fi
 
 # 1. Remove any stale junk if any.
-rm -rf www.old www.new
+if [ -e www.old ]; then
+  echo "- Removing www.old"
+  rm -rf www.old
+fi
+
+if [ -e www.new ]; then
+  echo "- Removing www.new"
+  rm -rf www.new
+fi
+
 
 ## Generation
 
 # 2. Do the generation of the static web site.
+echo "- Running $(hugo version)"
 hugo -s site -d ../www.new
 
 
 # 3. Minify all the output in-place.
+echo "- Running minify"
 minify -r -o www.new www.new
 
 
@@ -30,12 +41,14 @@ minify -r -o www.new www.new
 # without having to compress on the fly, leading to zero-CPU static file
 # serving.
 
-# 5.1. gzip
+# 4.1. gzip
+echo "- Compressing gzip"
 # Note: gzip included in busybox doesn't support -k so workaround with sh.
 find www.new -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.xml' -o -name '*.svg' \) \
   -exec /bin/sh -c 'gzip -v -f -9 -c "$1" > "$1.gz"' /bin/sh {} \;
 
-# 5.2. brotli
+# 4.2. brotli
+echo "- Compressing brotli"
 find www.new -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.xml' -o -name '*.svg' \) \
   -exec /bin/sh -c '/usr/local/bin/bro --quality 11 --input "$1" --output "$1.br"' /bin/sh {} \;
 
@@ -44,9 +57,12 @@ find www.new -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name
 
 # 6. Now that the new site is ready, switch the old site for the new one.
 if [ -d www ]; then
+  echo "- Moving www to www.old"
   mv www www.old
 fi
+echo "- Moving www.new to www"
 mv www.new www
+echo "- Removing www.old"
 rm -rf www.old
 
 # Cheezy.
