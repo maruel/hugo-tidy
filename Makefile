@@ -8,10 +8,10 @@
 # Override these at the command like, like "make push HUGO_VERSION=0.20 REPO=user/repo".
 # https://hub.docker.com/_/alpine/
 ALPINE_VERSION?=3.6
-# https://github.com/google/brotli
+# https://github.com/google/brotli/releases
 BROTLI_VERSION?=0.6.0
 # https://github.com/gohugoio/hugo/releases
-HUGO_VERSION?=0.25.1
+HUGO_VERSION?=0.26
 # https://pypi.python.org/pypi/Pygments
 PYGMENTS_VERSION?=2.2.0
 # https://www.musl-libc.org/download.html
@@ -26,7 +26,7 @@ MUSL_DIR=${BASE_DIR}/musl-install
 
 all: push_all
 
-.PHONY: build clean push
+.PHONY: build clean push_all push_latest push_version
 
 # Fetch if missing, do not update. Works around non-static build on go 1.8+
 # TODO(maruel): pin it.

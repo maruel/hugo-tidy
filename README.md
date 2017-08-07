@@ -30,8 +30,11 @@ tags.
 - Generated website is in `./www`
 
 ```
-docker run --rm -u $(id -u):$(id -g) -v $(pwd):/data marcaruel/hugo-tidy:hugo-0.25.1-alpine-3.6-pygments-2.2.0-brotli-0.6.0
+docker run --rm -u $(id -u):$(id -g) -v $(pwd):/data marcaruel/hugo-tidy:latest
 ```
+
+*Note*: it is highly recommended to pin to a specific version listed at
+[hub.docker.com/r/marcaruel/hugo-tidy/tags/](https://hub.docker.com/r/marcaruel/hugo-tidy/tags/).
 
 
 ## Making your own
