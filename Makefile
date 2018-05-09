@@ -11,7 +11,7 @@ ALPINE_VERSION?=3.7
 # https://github.com/google/brotli/releases
 BROTLI_VERSION?=1.0.4
 # https://github.com/gohugoio/hugo/releases
-HUGO_VERSION?=0.26
+HUGO_VERSION?=0.40.3
 # https://pypi.python.org/pypi/Pygments
 PYGMENTS_VERSION?=2.2.0
 # https://www.musl-libc.org/download.html
