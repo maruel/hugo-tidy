@@ -11,7 +11,6 @@ FROM alpine:${ALPINE_VERSION}
 MAINTAINER Marc-Antoine Ruel <d@maruel.net>
 
 ARG HUGO_VERSION
-ARG PYGMENTS_VERSION
 
 # Logic
 COPY ["./docker-entrypoint.sh", "/usr/local/bin/docker-entrypoint.sh"]
@@ -21,9 +20,6 @@ COPY ["./minify", "/usr/local/bin/minify"]
 
 # brotli
 COPY ["./brotli/bin/brotli", "/usr/local/bin/brotli"]
-
-# pygments
-RUN apk update && apk add py-pygments && rm -rf /var/cache/apk/*
 
 # hugo
 ADD ["https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz", "/usr/local/hugo.tar.gz"]

@@ -12,13 +12,11 @@ ALPINE_VERSION?=3.7
 BROTLI_VERSION?=1.0.4
 # https://github.com/gohugoio/hugo/releases
 HUGO_VERSION?=0.40.3
-# https://pypi.python.org/pypi/Pygments
-PYGMENTS_VERSION?=2.2.0
 # https://www.musl-libc.org/download.html
 MUSL_VERSION?=1.1.19
 
 REPO?=marcaruel/hugo-tidy
-TAG_NAME=hugo-${HUGO_VERSION}-alpine-${ALPINE_VERSION}-pygments-${PYGMENTS_VERSION}-brotli-${BROTLI_VERSION}
+TAG_NAME=hugo-${HUGO_VERSION}-alpine-${ALPINE_VERSION}-brotli-${BROTLI_VERSION}
 
 BASE_DIR=$(shell pwd)
 MUSL_DIR=${BASE_DIR}/musl-install
@@ -49,7 +47,7 @@ brotli/bin/brotli: brotli ${MUSL_DIR}/bin/musl-gcc
 	cd brotli && git fetch && git checkout v${BROTLI_VERSION} && CC="${MUSL_DIR}/bin/musl-gcc -static" $(MAKE) -j brotli
 
 build: minify brotli/bin/brotli
-	docker build --build-arg "ALPINE_VERSION=${ALPINE_VERSION}" --build-arg "HUGO_VERSION=${HUGO_VERSION}" --build-arg "PYGMENTS_VERSION=${PYGMENTS_VERSION}" --tag ${REPO}:latest .
+	docker build --build-arg "ALPINE_VERSION=${ALPINE_VERSION}" --build-arg "HUGO_VERSION=${HUGO_VERSION}" --tag ${REPO}:latest .
 	@echo ""
 	@echo "Built ${TAG_NAME}"
 	@echo ""
