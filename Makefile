@@ -9,7 +9,7 @@
 # https://hub.docker.com/_/alpine/
 ALPINE_VERSION?=3.6
 # https://github.com/google/brotli/releases
-BROTLI_VERSION?=0.6.0
+BROTLI_VERSION?=1.0.4
 # https://github.com/gohugoio/hugo/releases
 HUGO_VERSION?=0.26
 # https://pypi.python.org/pypi/Pygments
@@ -43,12 +43,12 @@ brotli:
 	git clone https://github.com/google/brotli -b v${BROTLI_VERSION}
 
 # This is important to build brotli as a static executable. You can verify with:
-#   readelf -d bro
+#   readelf -d brotli
 #
-brotli/bin/bro: brotli ${MUSL_DIR}/bin/musl-gcc
-	cd brotli && git fetch && git checkout v${BROTLI_VERSION} && CC="${MUSL_DIR}/bin/musl-gcc -static" $(MAKE) -j bro
+brotli/bin/brotli: brotli ${MUSL_DIR}/bin/musl-gcc
+	cd brotli && git fetch && git checkout v${BROTLI_VERSION} && CC="${MUSL_DIR}/bin/musl-gcc -static" $(MAKE) -j brotli
 
-build: minify brotli/bin/bro
+build: minify brotli/bin/brotli
 	docker build --build-arg "ALPINE_VERSION=${ALPINE_VERSION}" --build-arg "HUGO_VERSION=${HUGO_VERSION}" --build-arg "PYGMENTS_VERSION=${PYGMENTS_VERSION}" --tag ${REPO}:latest .
 	@echo ""
 	@echo "Built ${TAG_NAME}"

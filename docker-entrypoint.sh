@@ -50,7 +50,7 @@ find www.new -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name
 # 4.2. brotli
 echo "- Compressing brotli"
 find www.new -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.xml' -o -name '*.svg' \) \
-  -exec /bin/sh -c '/usr/local/bin/bro --quality 11 --input "$1" --output "$1.br"' /bin/sh {} \;
+  -exec /bin/sh -c '/usr/local/bin/brotli --quality 11 --input "$1" --output "$1.br"' /bin/sh {} \;
 
 
 ## Making it live

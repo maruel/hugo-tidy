@@ -20,7 +20,7 @@ COPY ["./docker-entrypoint.sh", "/usr/local/bin/docker-entrypoint.sh"]
 COPY ["./minify", "/usr/local/bin/minify"]
 
 # brotli
-COPY ["./brotli/bin/bro", "/usr/local/bin/bro"]
+COPY ["./brotli/bin/brotli", "/usr/local/bin/brotli"]
 
 # pygments
 RUN apk update && apk add py-pygments && rm -rf /var/cache/apk/*
