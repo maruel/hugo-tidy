@@ -9,7 +9,7 @@
 # https://hub.docker.com/_/alpine/
 ALPINE_VERSION?=3.7
 # https://github.com/google/brotli/releases
-BROTLI_VERSION?=1.0.4
+BROTLI_VERSION?=1.0.5
 # https://github.com/gohugoio/hugo/releases
 HUGO_VERSION?=0.40.3
 # https://www.musl-libc.org/download.html
