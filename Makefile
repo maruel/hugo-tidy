@@ -12,23 +12,28 @@ ALPINE_VERSION?=3.7
 BROTLI_VERSION?=1.0.5
 # https://github.com/gohugoio/hugo/releases
 HUGO_VERSION?=0.42.2
+# https://github.com/tdewolff/minify/releases
+MINIFY_VERSION?=2.3.5
 # https://www.musl-libc.org/download.html
 MUSL_VERSION?=1.1.19
 
 REPO?=marcaruel/hugo-tidy
-TAG_NAME=hugo-${HUGO_VERSION}-alpine-${ALPINE_VERSION}-brotli-${BROTLI_VERSION}
+TAG_NAME=hugo-${HUGO_VERSION}-alpine-${ALPINE_VERSION}-brotli-${BROTLI_VERSION}-minify-${MINIFY_VERSION}
 
 BASE_DIR=$(shell pwd)
 MUSL_DIR=${BASE_DIR}/musl-install
+# This is needed to build minify, as we need to make sure cgo is disabled.
+export GOPATH=${BASE_DIR}/go
 
 all: push_all
 
 .PHONY: build clean push_all push_latest push_version
 
-# Fetch if missing, do not update. Works around non-static build on go 1.8+
-# TODO(maruel): pin it.
 minify:
-	go get -v -d github.com/tdewolff/minify/cmd/minify
+	# We cannot use the prebuilt binaries, since we need to build with CGO disabled.
+	# Work around non-static build on go 1.8+
+	go get -v -d -u github.com/tdewolff/minify/cmd/minify
+	cd ${BASE_DIR}/go/src/github.com/tdewolff/minify && git checkout v${MINIFY_VERSION} && cd -
 	CGO_ENABLED=0 go build -a -o minify -installsuffix cgo github.com/tdewolff/minify/cmd/minify
 
 musl:
