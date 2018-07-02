@@ -29,12 +29,12 @@ fi
 
 # 2. Do the generation of the static web site.
 echo "- Running $(hugo version)"
-hugo -s site -d ../www.new
+/usr/local/bin/hugo -s site -d ../www.new
 
 
 # 3. Minify all the output in-place.
 echo "- Running minify"
-minify -r -o www.new www.new
+/usr/local/bin/minify -r -o www.new www.new
 
 
 # 4. Precompress all the minified files, so caddy can serve pre-compressed files
