@@ -8,10 +8,20 @@ set -eu
 # Preparation
 
 if [ ! -d site ]; then
-  echo "./site is expected, found:"
+  echo "./site is expected, did you forget to map it? Found:"
   ls -la
   exit 1
 fi
+
+
+# If arguments were passed, serve the live web site instead of generating.
+if [ $# != 0 ]; then
+  echo "- Running $(hugo version)"
+  echo "  with args: $@"
+  /usr/local/bin/hugo server -s site -d ../www.new "$@"
+  exit 0
+fi
+
 
 # 1. Remove any stale junk if any.
 if [ -e www.old ]; then
