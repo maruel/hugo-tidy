@@ -11,7 +11,7 @@ ALPINE_VERSION?=3.9
 # https://github.com/google/brotli/releases
 BROTLI_VERSION?=1.0.7
 # https://github.com/gohugoio/hugo/releases
-HUGO_VERSION?=0.42.2
+HUGO_VERSION?=0.54.0
 # https://github.com/tdewolff/minify/releases
 MINIFY_VERSION?=2.3.5
 # https://www.musl-libc.org/download.html
