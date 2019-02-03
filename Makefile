@@ -13,7 +13,7 @@ BROTLI_VERSION?=1.0.7
 # https://github.com/gohugoio/hugo/releases
 HUGO_VERSION?=0.54.0
 # https://github.com/tdewolff/minify/releases
-MINIFY_VERSION?=2.3.5
+MINIFY_VERSION?=2.3.8
 # https://www.musl-libc.org/download.html
 MUSL_VERSION?=1.1.21
 
@@ -22,19 +22,23 @@ TAG_NAME=hugo-${HUGO_VERSION}-alpine-${ALPINE_VERSION}-brotli-${BROTLI_VERSION}-
 
 BASE_DIR=$(shell pwd)
 MUSL_DIR=${BASE_DIR}/musl-install
-# This is needed to build minify, as we need to make sure cgo is disabled.
-export GOPATH=${BASE_DIR}/go
+# Enable go mod support.
+export GO111MODULE=on
+# Disable cgo support.
+export CGO_ENABLED=0
+
 
 all: push_all
 
 .PHONY: build clean push_all push_latest push_version
 
 minify:
-	# We cannot use the prebuilt binaries, since we need to build with CGO disabled.
-	# Work around non-static build on go 1.8+
-	go get -v -d -u github.com/tdewolff/minify/cmd/minify
-	cd ${BASE_DIR}/go/src/github.com/tdewolff/minify && git checkout v${MINIFY_VERSION} && cd -
-	CGO_ENABLED=0 go build -a -o minify -installsuffix cgo github.com/tdewolff/minify/cmd/minify
+	git clone https://github.com/tdewolff/minify -b v${MINIFY_VERSION}
+
+# We cannot use the minify prebuilt binaries, since we need to build with CGO
+# disabled. Work around non-static build on go 1.8+.
+minify/minify: minify
+	cd minify && git reset --hard && git checkout v${MINIFY_VERSION} && go build -a -o minify -installsuffix cgo ./cmd/minify && cd -
 
 musl:
 	git clone git://git.musl-libc.org/musl -b v${MUSL_VERSION}
@@ -51,7 +55,7 @@ brotli:
 brotli/bin/brotli: brotli ${MUSL_DIR}/bin/musl-gcc
 	cd brotli && git fetch && git checkout v${BROTLI_VERSION} && CC="${MUSL_DIR}/bin/musl-gcc -static" $(MAKE) -j brotli
 
-build: minify brotli/bin/brotli
+build: minify/minify brotli/bin/brotli
 	docker build --build-arg "ALPINE_VERSION=${ALPINE_VERSION}" --build-arg "HUGO_VERSION=${HUGO_VERSION}" --tag ${REPO}:latest .
 	@echo ""
 	@echo "Built ${TAG_NAME}"
