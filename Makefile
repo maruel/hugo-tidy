@@ -9,7 +9,7 @@
 # https://hub.docker.com/_/alpine/
 ALPINE_VERSION?=3.9
 # https://github.com/google/brotli/releases
-BROTLI_VERSION?=1.0.5
+BROTLI_VERSION?=1.0.7
 # https://github.com/gohugoio/hugo/releases
 HUGO_VERSION?=0.42.2
 # https://github.com/tdewolff/minify/releases
