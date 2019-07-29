@@ -56,17 +56,17 @@ brotli/bin/brotli: brotli ${MUSL_DIR}/bin/musl-gcc
 	cd brotli && git fetch && git checkout v${BROTLI_VERSION} && CC="${MUSL_DIR}/bin/musl-gcc -static" $(MAKE) -j brotli
 
 build: minify/minify brotli/bin/brotli
-	docker build --build-arg "ALPINE_VERSION=${ALPINE_VERSION}" --build-arg "HUGO_VERSION=${HUGO_VERSION}" --tag ${REPO}:latest .
+	docker build --build-arg "ALPINE_VERSION=${ALPINE_VERSION}" --build-arg "HUGO_VERSION=${HUGO_VERSION}" --tag ${REPO}:${TAG_NAME} .
 	@echo ""
 	@echo "Built ${TAG_NAME}"
 	@echo ""
 
 push_version: build
-	docker tag ${REPO}:latest ${REPO}:${TAG_NAME}
+	docker tag ${REPO}:${TAG_NAME} ${REPO}:${TAG_NAME}
 	docker push ${REPO}:${TAG_NAME}
 
 push_latest: build
-	docker push ${REPO}:latest
+	docker push ${REPO}:${TAG_NAME} ${REPO}:latest
 
 push_all: push_version push_latest
 
