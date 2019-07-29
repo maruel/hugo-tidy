@@ -15,7 +15,7 @@ HUGO_VERSION?=0.54.0
 # https://github.com/tdewolff/minify/releases
 MINIFY_VERSION?=2.3.8
 # https://www.musl-libc.org/download.html
-MUSL_VERSION?=1.1.21
+MUSL_VERSION?=1.1.22
 
 REPO?=marcaruel/hugo-tidy
 TAG_NAME=hugo-${HUGO_VERSION}-alpine-${ALPINE_VERSION}-brotli-${BROTLI_VERSION}-minify-${MINIFY_VERSION}
