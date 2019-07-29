@@ -29,7 +29,7 @@ tags.
 - Hugo input must be in `./site`
 - Generated website is in `./www`
 
-```
+```shell
 docker run --rm -u $(id -u):$(id -g) -v $(pwd):/data marcaruel/hugo-tidy:latest
 ```
 
@@ -47,6 +47,50 @@ Override `REPO` to have it push to your repository.
 To push an image on your name with a new version of Hugo, run the following:
 ```
 make push HUGO_VERSION=0.99.1 REPO=user/repo
+```
+
+
+## Release process
+
+```shell
+# Create a local image.
+$ make build
+
+# Push the version without updating latest
+$ make push_version
+
+# Update the 'latest' tag
+$ make push_latest
+
+# Push and update 'latest'
+$ make push_all
+
+# Cleanup
+$ make clean
+```
+
+## Testing
+
+```shell
+$ make build
+$ cd ..
+$ git clone https://github.com/periph/website
+$ cd website
+$ ./gen.sh
+$ mv www www1
+
+# Update the tag to be what was just built.:
+$ vim tag
+
+$ ./gen.sh
+
+# Compare the files:
+$ diff -R -u www1 www
+# If a difference is found, look at the website:
+$ ./serve.sh
+
+# Cleanup:
+$ rm -rf www1
 ```
 
 
