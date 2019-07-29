@@ -60,6 +60,7 @@ build: minify/minify brotli/bin/brotli
 	@echo ""
 	@echo "Built ${TAG_NAME}"
 	@echo ""
+	@echo "${REPO}:${TAG_NAME}" > ./tag
 
 push_version: build
 	docker tag ${REPO}:${TAG_NAME} ${REPO}:${TAG_NAME}

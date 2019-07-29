@@ -52,6 +52,11 @@ make push HUGO_VERSION=0.99.1 REPO=user/repo
 
 ## Release process
 
+Run `./compare.sh` and if it reports not difference, then you can just run `make
+push_all`.
+
+Otherwise inspect the differences before pushing:
+
 ```shell
 # Create a local image.
 $ make build
@@ -68,31 +73,6 @@ $ make push_all
 # Cleanup
 $ make clean
 ```
-
-## Testing
-
-```shell
-$ make build
-$ cd ..
-$ git clone https://github.com/periph/website
-$ cd website
-$ ./gen.sh
-$ mv www www1
-
-# Update the tag to be what was just built.:
-$ vim tag
-
-$ ./gen.sh
-
-# Compare the files:
-$ diff -R -u www1 www
-# If a difference is found, look at the website:
-$ ./serve.sh
-
-# Cleanup:
-$ rm -rf www1
-```
-
 
 ## Background
 
