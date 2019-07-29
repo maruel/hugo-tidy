@@ -27,8 +27,19 @@ echo "${CURRENT}" > ./website/tag
 ./website/gen.sh
 
 echo ""
-echo "Comparing ${PREVIOUS} and ${CURRENT}."
-echo "If a difference is found, look at the website:"
-echo "  ./website/serve.sh"
+echo "Comparing:"
+echo "  - ${PREVIOUS}"
+echo "  - ${CURRENT}"
 echo ""
-diff -r -u -w -x *.br -x *.gz -q ./website/www1 ./website/www
+if (diff -r -w -x *.br -x *.gz -q ./website/www1 ./website/www > /dev/null); then
+  echo "No content difference found!"
+  exit 0
+fi
+
+echo "A difference was found, manually inspect the websites if necessary:"
+echo "  go get github.com/maruel/serve-dir"
+echo "  serve-dir --port=3132 -root=./website/www1"
+echo "  serve-dir --port=3133 -root=./website/www"
+echo ""
+git diff -U0 --word-diff --no-index -- ./website/www1 ./website/www
+exit 1
