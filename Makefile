@@ -63,11 +63,11 @@ build: minify/minify brotli/bin/brotli
 	@echo "${REPO}:${TAG_NAME}" > ./tag
 
 push_version: build
-	docker tag ${REPO}:${TAG_NAME} ${REPO}:${TAG_NAME}
 	docker push ${REPO}:${TAG_NAME}
 
 push_latest: build
-	docker push ${REPO}:${TAG_NAME} ${REPO}:latest
+	docker tag ${REPO}:${TAG_NAME} ${REPO}:latest
+	docker push ${REPO}:latest
 
 push_all: push_version push_latest
 
