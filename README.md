@@ -37,6 +37,10 @@ docker run --rm -u $(id -u):$(id -g) -v $(pwd):/data marcaruel/hugo-tidy:latest
 [hub.docker.com/r/marcaruel/hugo-tidy/tags/](https://hub.docker.com/r/marcaruel/hugo-tidy/tags/).
 
 
+*Note*: it passes [`--buildFuture`](https://gohugo.io/getting-started/usage/) so
+that all posts are generated.
+
+
 ## Making your own
 
 Override `ALPINE_VERSION`, `BROTLI_VERSION`, `HUGO_VERSION`, to select newer

@@ -18,7 +18,7 @@ fi
 if [ $# != 0 ]; then
   echo "- Running $(hugo version)"
   echo "  with args: $@"
-  /usr/local/bin/hugo server -s site -d ../www.new "$@"
+  /usr/local/bin/hugo server -s site -d ../www.new --buildFuture "$@"
   exit 0
 fi
 
@@ -39,7 +39,7 @@ fi
 
 # 2. Do the generation of the static web site.
 echo "- Running $(hugo version)"
-/usr/local/bin/hugo -s site -d ../www.new
+/usr/local/bin/hugo -s site -d ../www.new --buildFuture
 
 
 # 3. Minify all the output in-place.
