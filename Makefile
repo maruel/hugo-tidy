@@ -13,7 +13,7 @@ BROTLI_VERSION?=1.0.7
 # https://github.com/gohugoio/hugo/releases
 HUGO_VERSION?=0.57.2
 # https://github.com/tdewolff/minify/releases
-MINIFY_VERSION?=2.5.1
+MINIFY_VERSION?=2.7.3
 # https://www.musl-libc.org/download.html
 MUSL_VERSION?=1.2.0
 
