@@ -8,7 +8,7 @@
 # Override these at the command like, like "make push HUGO_VERSION=0.20 REPO=user/repo".
 # https://hub.docker.com/_/alpine?tab=tags
 ALPINE_VERSION?=3.11.5
-# https://github.com/google/brotli/releaseas
+# https://github.com/google/brotli/releases
 BROTLI_VERSION?=1.0.7
 # https://github.com/gohugoio/hugo/releases
 HUGO_VERSION?=0.57.2
