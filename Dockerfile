@@ -15,9 +15,6 @@ ARG HUGO_VERSION
 # Logic
 COPY ["./docker-entrypoint.sh", "/usr/local/bin/docker-entrypoint.sh"]
 
-# minify
-COPY ["./minify/minify", "/usr/local/bin/minify"]
-
 # brotli
 COPY ["./brotli/bin/brotli", "/usr/local/bin/brotli"]
 

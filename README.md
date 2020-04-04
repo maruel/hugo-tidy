@@ -2,8 +2,7 @@
 
 This image does one thing well: generate the fastest web site via Hugo.
 
-It uses [Hugo](https://gohugo.io/),
-[minify](https://github.com/tdewolff/minify/cmd/minify) the code then generate
+It uses [Hugo](https://gohugo.io/), then generate
 [brotli](https://github.com/google/brotli/) and gzip precompressed files.
 
 This enables [Caddy](https://caddyserver.com/) to serve the precompressed
@@ -17,11 +16,11 @@ tags.
 ## Features
 
 - Fast. Generating a simple site takes 1.6 seconds, including syntax
-  highlighting
-- Runs as single step
-- minifies the `.js`, `.css` and `.html`
-- pre-generates `.br` and `.gz` files for high performance web serving
-- images are properly tagged, so you know what versions are running
+  highlighting.
+- Runs as single step.
+- Hugo minifies the `.js`, `.css` and `.html`.
+- Pre-generates `.br` and `.gz` files for high performance web serving.
+- Images are properly tagged, so you know what versions are running.
 
 
 ## Usage

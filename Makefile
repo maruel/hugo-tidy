@@ -12,13 +12,11 @@ ALPINE_VERSION?=3.15.0
 BROTLI_VERSION?=1.0.9
 # https://github.com/gohugoio/hugo/releases
 HUGO_VERSION?=0.92.0
-# https://github.com/tdewolff/minify/releases
-MINIFY_VERSION?=2.9.29
 # https://www.musl-libc.org/download.html
 MUSL_VERSION?=1.2.2
 
 REPO?=marcaruel/hugo-tidy
-TAG_NAME=hugo-${HUGO_VERSION}-alpine-${ALPINE_VERSION}-brotli-${BROTLI_VERSION}-minify-${MINIFY_VERSION}
+TAG_NAME=hugo-${HUGO_VERSION}-alpine-${ALPINE_VERSION}-brotli-${BROTLI_VERSION}
 
 BASE_DIR=$(shell pwd)
 MUSL_DIR=${BASE_DIR}/musl-install
@@ -31,14 +29,6 @@ export CGO_ENABLED=0
 all: push_all
 
 .PHONY: build clean push_all push_latest push_version
-
-minify:
-	git clone https://github.com/tdewolff/minify -b v${MINIFY_VERSION}
-
-# We cannot use the minify prebuilt binaries, since we need to build with CGO
-# disabled. Work around non-static build on go 1.8+.
-minify/minify: minify
-	cd minify && git reset --hard && git checkout v${MINIFY_VERSION} && go build -a -o minify -installsuffix cgo ./cmd/minify && cd -
 
 musl:
 	git clone git://git.musl-libc.org/musl -b v${MUSL_VERSION}
@@ -55,7 +45,7 @@ brotli:
 brotli/bin/brotli: brotli ${MUSL_DIR}/bin/musl-gcc
 	cd brotli && git fetch && git checkout v${BROTLI_VERSION} && CC="${MUSL_DIR}/bin/musl-gcc -static" $(MAKE) -j brotli
 
-build: minify/minify brotli/bin/brotli
+build: brotli/bin/brotli
 	docker build --build-arg "ALPINE_VERSION=${ALPINE_VERSION}" --build-arg "HUGO_VERSION=${HUGO_VERSION}" --tag ${REPO}:${TAG_NAME} .
 	@echo ""
 	@echo "Built ${TAG_NAME}"
@@ -72,4 +62,4 @@ push_latest: build
 push_all: push_version push_latest
 
 clean:
-	rm -rf brotli minify musl ${MUSL_DIR}
+	rm -rf brotli musl ${MUSL_DIR}
