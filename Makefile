@@ -16,9 +16,11 @@ HUGO_VERSION?=0.74.3
 MINIFY_VERSION?=2.7.3
 # https://www.musl-libc.org/download.html
 MUSL_VERSION?=1.2.0
+# https://chromium.googlesource.com/webm/libwebp/+refs
+WEBP_VERSION?=1.1.0
 
 REPO?=marcaruel/hugo-tidy
-TAG_NAME=hugo-${HUGO_VERSION}-alpine-${ALPINE_VERSION}-brotli-${BROTLI_VERSION}-minify-${MINIFY_VERSION}
+TAG_NAME=hugo-${HUGO_VERSION}-alpine-${ALPINE_VERSION}-brotli-${BROTLI_VERSION}-minify-${MINIFY_VERSION}-webp-${WEBP_VERSION}
 
 BASE_DIR=$(shell pwd)
 MUSL_DIR=${BASE_DIR}/musl-install
@@ -55,7 +57,28 @@ brotli:
 brotli/bin/brotli: brotli ${MUSL_DIR}/bin/musl-gcc
 	cd brotli && git fetch && git checkout v${BROTLI_VERSION} && CC="${MUSL_DIR}/bin/musl-gcc -static" $(MAKE) -j brotli
 
-build: minify/minify brotli/bin/brotli
+# https://developers.google.com/speed/webp/docs/cwebp
+# libpng, libjpeg
+libwebp/autogen.sh:
+	# https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html
+	git clone https://chromium.googlesource.com/webm/libwebp.git -b v${WEBP_VERSION}
+
+libwebp/configure: libwebp/autogen.sh
+	cd libwebp && ./autogen.sh
+
+libwebp/Makefile: libwebp/configure ${MUSL_DIR}/bin/musl-gcc
+	cd libwebp && CC="${MUSL_DIR}/bin/musl-gcc -static" ./configure --disable-tiff
+
+# -DWEBP_BUILD_CWEBP=ON
+#cd libwebp && $(MAKE) -j8 -f makefile.unix examples/cwebp
+libwebp/examples/cwebp: libwebp/Makefile
+	cd libwebp && $(MAKE) -j8
+
+# http://jpegclub.org/reference/wp-content/uploads/2020/01/jpegsrc.v9d.tar.gz
+# http://www.libpng.org/pub/png/libpng.html
+# https://www.zlib.net/
+
+build: minify/minify brotli/bin/brotli libwebp/examples/cwebp
 	docker build --build-arg "ALPINE_VERSION=${ALPINE_VERSION}" --build-arg "HUGO_VERSION=${HUGO_VERSION}" --tag ${REPO}:${TAG_NAME} .
 	@echo ""
 	@echo "Built ${TAG_NAME}"
@@ -72,4 +95,4 @@ push_latest: build
 push_all: push_version push_latest
 
 clean:
-	rm -rf brotli minify musl ${MUSL_DIR}
+	rm -rf brotli minify musl ${MUSL_DIR} libwebp

@@ -63,6 +63,11 @@ echo "- Compressing brotli"
 find www.new -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.xml' -o -name '*.svg' \) \
   -exec /bin/sh -c '/usr/local/bin/brotli -q 11 -o "$1.br" "$1"' /bin/sh {} \;
 
+# 5. Make webp images
+echo "- Compressing webp"
+find www.new -type f \( -name '*.jpg' -o -name '*.png' \) \
+  -exec /bin/sh -c '/usr/local/bin/cwebp "$1" -o "$1.webp"' /bin/sh {} \;
+
 
 ## Making it live
 
