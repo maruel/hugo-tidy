@@ -45,12 +45,14 @@ brotli:
 brotli/bin/brotli: brotli ${MUSL_DIR}/bin/musl-gcc
 	cd brotli && git fetch && git checkout v${BROTLI_VERSION} && CC="${MUSL_DIR}/bin/musl-gcc -static" $(MAKE) -j brotli
 
+# Removed "${REPO}:" from tag since I don't want it to be able to fetch
+# arbitrary docker images, there's value in hard coding this for safety for now.
 build: brotli/bin/brotli
 	docker build --build-arg "ALPINE_VERSION=${ALPINE_VERSION}" --build-arg "HUGO_VERSION=${HUGO_VERSION}" --tag ${REPO}:${TAG_NAME} .
 	@echo ""
 	@echo "Built ${TAG_NAME}"
 	@echo ""
-	@echo "${REPO}:${TAG_NAME}" > ./tag
+	@echo "${TAG_NAME}" > ./tag
 
 push_version: build
 	docker push ${REPO}:${TAG_NAME}
