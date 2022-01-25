@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright 2017 Marc-Antoine Ruel. All rights reserved.
 # Use of this source code is governed under the Apache License, Version 2.0
 # that can be found in the LICENSE file.
@@ -14,9 +14,9 @@ if [ ! -d site ]; then
 fi
 
 
-# If arguments were passed, pass them as-is. Normally the user would pass
-# 'serve'
-if [ $# != 0 ]; then
+# If a subcommand is passed, run it as-is. Normally the user would pass
+# 'server'.
+if [ $# != 0 ] && [ "${1:0:1}" != "-" ]; then
   echo "- Running $(hugo version)"
   echo "  with args: $@"
   /usr/local/bin/hugo --source site --destination ../www.new --buildFuture "$@"
