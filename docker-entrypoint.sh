@@ -39,8 +39,8 @@ fi
 ## Generation
 
 # 2. Do the generation of the static web site.
-echo "- Running $(hugo version)"
-/usr/local/bin/hugo --source site --destination ../www.new --buildFuture
+echo "- Running $(hugo version) $@"
+/usr/local/bin/hugo --source site --destination ../www.new --buildFuture "$@"
 
 
 # 3. Precompress all the files, so caddy can serve pre-compressed files without
